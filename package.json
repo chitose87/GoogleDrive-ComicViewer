@@ -1,0 +1,24 @@
+{
+  "name": "gdcv",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "libs": "find ./ -type f | grep -f Grepfile | xargs awk '{ print }' > ./src/script/libs.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chitose87/GoogleDrive-ComicViewer.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chitose87/GoogleDrive-ComicViewer/issues"
+  },
+  "homepage": "https://github.com/chitose87/GoogleDrive-ComicViewer#readme",
+  "dependencies": {
+    "@types/gapi": "0.0.30",
+    "@types/jquery": "^2.0.40"
+  }
+}

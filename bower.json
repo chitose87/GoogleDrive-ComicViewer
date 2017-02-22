@@ -1,0 +1,22 @@
+{
+  "name": "GoogleDrive-ComicViewer",
+  "homepage": "https://github.com/chitose87/GoogleDrive-ComicViewer",
+  "authors": [
+    "Chitose Macoto <makoto.chitose@nide.jp>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jQuery": "^3.1.1",
+    "bourbon": "^4.3.2",
+    "sanitize-css": "^4.1.0"
+  }
+}

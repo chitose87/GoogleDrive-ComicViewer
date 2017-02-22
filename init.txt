@@ -1,0 +1,8 @@
+bower init
+bower install jQuery --save
+bower install bourbon --save
+bower install sanitize-css --save && css-scss ./bower_components/sanitize-css/sanitize.css ./bower_components/sanitize-css/sanitize.scss
+
+npm init
+npm install --save @types/jquery
+npm install --save @types/gapi

@@ -1,0 +1,49 @@
+-var title="";
+-var description="";
+-var url="";
+
+
+doctype
+html
+	head
+		meta(name='format-detection', content='telephone=no')
+		meta(name='viewport', content='user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width')
+		meta(http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1")
+		meta(charset="UTF-8")
+		meta(http-equiv="Content-Style-Type" content="text/css")
+		meta(http-equiv="Content-Script-Type" content="text/javascript")
+		meta(http-equiv='content-language', content='ja')
+		meta(http-equiv='Content-Script-Type', content='text/javascript')
+		meta(http-equiv='Content-Style-Type', content='text/css')
+		meta(name="description" content="#{description}")
+		meta(name="keywords" content="")
+		meta(name="robots" content="index")
+
+		// ogp
+		meta(property='og:type', content='website')
+		meta(property='og:title', content='#{title}')
+		meta(property='og:url', content='#{url}')
+		meta(property='og:image', content='')
+
+		//link(href="../img/Favicon.png" rel="shortcut icon")
+		//link(href="../img/app-icon.png" rel="apple-touch-icon")
+		//link(rel="stylesheet" href="https://cdn.rawgit.com/qrac/yakuhanjp/master/dist/css/yakuhanjp.css")
+		//link(type="text/css" rel="stylesheet" href="./style.css")
+		script(type='text/javascript', src='./script/libs.js')
+		script(src="./script/index.js")
+
+		title project01
+	body
+		#content
+
+
+		//script(src="https://apis.google.com/js/client.js?onload=checkAuth")
+		script(src="https://apis.google.com/js/api.js?onload=onApiLoad")
+
+		//
+		//script(type='text/javascript', src='../common/script/d3-threeD/lib/d3-threeD_transformSVGPath.js')
+		//script(type='text/javascript', src='./script/three/NumberObject.js')
+		//script(type='text/javascript', src='./script/three/NumberRing.js')
+		//script(type='text/javascript', src='./script/three/MainScene.js')
+		//script(type='text/javascript', src='./script/index.js')
+
