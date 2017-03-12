@@ -1,54 +1,54 @@
 /// <reference path="./libs.d.ts" />
 
-// Googleから取得したOAuth 2.0 のClient ID
-const CLIENT_ID = "902347479823-4rleemh315kaedsq8oc9vqegro999b32.apps.googleusercontent.com";
-// client_secret="KrAWzmSybojG5ZpSBtM1Olmc"
-// 認証時にリクエストする機能の範囲
-var SCOPES = ['https://www.googleapis.com/auth/drive'];
 class Main {
-	constructor() {
+	public searchText:JQuery = $("[data-js='searchText']");
+	public searchBtn:JQuery = $("[data-js='searchBtn']");
+	public viewer:Viewer = new Viewer();
+	public fileListView:FileListView = new FileListView();
 
+	constructor() {
+		AccountMgr.init(()=>this.onLogin());
+
+		this.searchBtn.on("click", ()=>this.search());
+	}
+
+	public onLogin() {
+		this.searchText.val("https://drive.google.com/drive/u/2/folders/0B31JYfRnUWcPN2NjQXJXd3J4T2M");
+		// console.log("onLogin", gapi.client);
+		//https://drive.google.com/drive/u/2/folders/0B31JYfRnUWcPN2NjQXJXd3J4T2M
+		// gapi.client.drive.files.get({
+		// 	fileId: "0B31JYfRnUWcPN2NjQXJXd3J4T2M"
+		// }).then((e)=> {
+		// 	console.log(e);
+		// })
+	}
+
+	private search() {
+		var str:string = this.searchText.val();
+		if (str.indexOf("drive.google.com") >= 0 && str.indexOf("folders") >= 0) {
+			str = str.split("folders/")[1];
+		}
+
+		this.viewer.start(str);
+
+		// this.fileListView.clear();
+	}
+
+	private show(e:any) {
+		var files:any[] = e.result.files;
+		var nextPageToken:string = e.result.nextPageToken;
+
+		this.fileListView.add(files);
+
+		console.log();
 	}
 }
-function checkAuth() {
-
-	var oauthToken;
-
-	console.log("gapi.auth.authorize");
-	gapi.auth.authorize(
-		{
-
-			'immediate': true
-		}
-		, (authResult)=> {
-			oauthToken = authResult.access_token;
-			console.log(oauthToken);
-		}
-	);
-}
-function onApiLoad() {
-	gapi.load('auth', {'callback': onAuthApiLoad});
-	gapi.load('picker', {'callback': onPickerApiLoad});
-}
-function onAuthApiLoad() {
-	gapi.auth.authorize(
-		{
-			'client_id': CLIENT_ID,
-			'scope': SCOPES.join(' '),
-			'immediate': false
-		},
-		(e)=>{
-			console.log(e)
-		});
-}
-
-function onPickerApiLoad() {
-	// pickerApiLoaded = true;
-	// createPicker();
-}
+// function onApiLoad() {
+//
+// }
 
 var main:Main;
 $(()=> {
+	console.log("v0.1");
 	main = new Main();
 });
-

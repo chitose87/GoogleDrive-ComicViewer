@@ -27,18 +27,35 @@ html
 
 		//link(href="../img/Favicon.png" rel="shortcut icon")
 		//link(href="../img/app-icon.png" rel="apple-touch-icon")
-		//link(rel="stylesheet" href="https://cdn.rawgit.com/qrac/yakuhanjp/master/dist/css/yakuhanjp.css")
-		//link(type="text/css" rel="stylesheet" href="./style.css")
+		link(rel="stylesheet" href="https://cdn.rawgit.com/qrac/yakuhanjp/master/dist/css/yakuhanjp.css")
+		link(type="text/css" rel="stylesheet" href="./style/index.css")
+		script(type='text/javascript',src="https://apis.google.com/js/api.js")
 		script(type='text/javascript', src='./script/libs.js')
-		script(src="./script/index.js")
+		script(type='text/javascript',src="./script/index.js")
 
 		title project01
 	body
 		#content
+			.search-box
+				input(type="text",data-js='searchText')
+				button(type="button",data-js='searchBtn') get
+
+			#viewer(data-js="viewer")
+				.left
+				.right
+				.ui
+					.nextBtn
+					.prevBtn
+					.menuBtn
+					.seekBar
+						.nov
+
+			#result
+				ul(data-js="fileList")
 
 
 		//script(src="https://apis.google.com/js/client.js?onload=checkAuth")
-		script(src="https://apis.google.com/js/api.js?onload=onApiLoad")
+
 
 		//
 		//script(type='text/javascript', src='../common/script/d3-threeD/lib/d3-threeD_transformSVGPath.js')
