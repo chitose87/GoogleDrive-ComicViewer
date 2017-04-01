@@ -1,6 +1,7 @@
 /// <reference path="./libs.d.ts" />
 
 class Main {
+	public content:JQuery = $("#content");
 	public searchText:JQuery = $("[data-js='searchText']");
 	public searchBtn:JQuery = $("[data-js='searchBtn']");
 	public viewer:Viewer = new Viewer();
@@ -9,18 +10,29 @@ class Main {
 	constructor() {
 		AccountMgr.init(()=>this.onLogin());
 
-		this.searchBtn.on("click", ()=>this.search());
+		// this.searchBtn.on("click", ()=>this.search());
 	}
 
 	public onLogin() {
 		this.searchText.val("https://drive.google.com/drive/u/2/folders/0B31JYfRnUWcPN2NjQXJXd3J4T2M");
-		// console.log("onLogin", gapi.client);
-		//https://drive.google.com/drive/u/2/folders/0B31JYfRnUWcPN2NjQXJXd3J4T2M
-		// gapi.client.drive.files.get({
-		// 	fileId: "0B31JYfRnUWcPN2NjQXJXd3J4T2M"
-		// }).then((e)=> {
-		// 	console.log(e);
-		// })
+		this.fileListView
+			.init()
+			.onSelect((parentData:any, targetData:any)=> {
+				this.viewer.start(parentData);
+				location.hash = "#viewer";
+				// this.content.attr("data-mode", "viewer");
+			});
+
+		$(window).on("hashchange", ()=> {
+			switch (location.hash) {
+				case "#viewer":
+					this.content.attr("data-mode", "viewer");
+					break;
+				default:
+					this.content.attr("data-mode", "");
+					location.hash = "";
+			}
+		}).trigger("hashchange");
 	}
 
 	private search() {
@@ -29,7 +41,7 @@ class Main {
 			str = str.split("folders/")[1];
 		}
 
-		this.viewer.start(str);
+		// this.viewer.start(str);
 
 		// this.fileListView.clear();
 	}

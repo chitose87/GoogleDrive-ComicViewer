@@ -1,0 +1,729 @@
+@font-face {
+	font-family: "Genericons-Neue";
+	src: url("Genericons-Neue.eot?3d5e5abe2b62a2e8105ddf2de82c02cd");
+	src: url("Genericons-Neue.eot?#iefix") format("embedded-opentype"),
+	url("Genericons-Neue.ttf?3d5e5abe2b62a2e8105ddf2de82c02cd") format("truetype");
+	font-weight: normal;
+	font-style: normal;
+}
+
+@mixin genericons-neue-activity() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f508";
+	}
+}
+
+@mixin genericons-neue-anchor() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f509";
+	}
+}
+
+@mixin genericons-neue-aside() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f101";
+	}
+}
+
+@mixin genericons-neue-attachment() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f416";
+	}
+}
+
+@mixin genericons-neue-audio-mute() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f174";
+	}
+}
+
+@mixin genericons-neue-audio() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f109";
+	}
+}
+
+@mixin genericons-neue-bold() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f471";
+	}
+}
+
+@mixin genericons-neue-book() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f444";
+	}
+}
+
+@mixin genericons-neue-bug() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f50a";
+	}
+}
+
+@mixin genericons-neue-cart() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f447";
+	}
+}
+
+@mixin genericons-neue-category() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f301";
+	}
+}
+
+@mixin genericons-neue-chat() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f108";
+	}
+}
+
+@mixin genericons-neue-checkmark() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f418";
+	}
+}
+
+@mixin genericons-neue-close-alt() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f406";
+	}
+}
+
+@mixin genericons-neue-close() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f405";
+	}
+}
+
+@mixin genericons-neue-cloud-download() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f440";
+	}
+}
+
+@mixin genericons-neue-cloud-upload() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f441";
+	}
+}
+
+@mixin genericons-neue-cloud() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f426";
+	}
+}
+
+@mixin genericons-neue-code() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f462";
+	}
+}
+
+@mixin genericons-neue-cog() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f445";
+	}
+}
+
+@mixin genericons-neue-collapse() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f432";
+	}
+}
+
+@mixin genericons-neue-comment() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f300";
+	}
+}
+
+@mixin genericons-neue-day() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f305";
+	}
+}
+
+@mixin genericons-neue-document() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f443";
+	}
+}
+
+@mixin genericons-neue-download() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f50b";
+	}
+}
+
+@mixin genericons-neue-edit() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f411";
+	}
+}
+
+@mixin genericons-neue-ellipsis() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f476";
+	}
+}
+
+@mixin genericons-neue-expand() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f431";
+	}
+}
+
+@mixin genericons-neue-external() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f442";
+	}
+}
+
+@mixin genericons-neue-fastforward() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f458";
+	}
+}
+
+@mixin genericons-neue-feed() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f413";
+	}
+}
+
+@mixin genericons-neue-flag() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f468";
+	}
+}
+
+@mixin genericons-neue-fullscreen() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f474";
+	}
+}
+
+@mixin genericons-neue-gallery() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f103";
+	}
+}
+
+@mixin genericons-neue-heart() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f461";
+	}
+}
+
+@mixin genericons-neue-help() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f457";
+	}
+}
+
+@mixin genericons-neue-hide() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f404";
+	}
+}
+
+@mixin genericons-neue-hierarchy() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f505";
+	}
+}
+
+@mixin genericons-neue-home() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f409";
+	}
+}
+
+@mixin genericons-neue-image() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f102";
+	}
+}
+
+@mixin genericons-neue-info() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f455";
+	}
+}
+
+@mixin genericons-neue-italic() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f472";
+	}
+}
+
+@mixin genericons-neue-key() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f427";
+	}
+}
+
+@mixin genericons-neue-link() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f107";
+	}
+}
+
+@mixin genericons-neue-location() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f417";
+	}
+}
+
+@mixin genericons-neue-lock() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f470";
+	}
+}
+
+@mixin genericons-neue-mail() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f410";
+	}
+}
+
+@mixin genericons-neue-menu() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f419";
+	}
+}
+
+@mixin genericons-neue-microphone() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f50d";
+	}
+}
+
+@mixin genericons-neue-minus() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f50e";
+	}
+}
+
+@mixin genericons-neue-month() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f307";
+	}
+}
+
+@mixin genericons-neue-move() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f50f";
+	}
+}
+
+@mixin genericons-neue-next() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f429";
+	}
+}
+
+@mixin genericons-neue-notice() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f456";
+	}
+}
+
+@mixin genericons-neue-paintbrush() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f506";
+	}
+}
+
+@mixin genericons-neue-pause() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f448";
+	}
+}
+
+@mixin genericons-neue-phone() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f437";
+	}
+}
+
+@mixin genericons-neue-picture() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f473";
+	}
+}
+
+@mixin genericons-neue-pinned() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f308";
+	}
+}
+
+@mixin genericons-neue-play() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f452";
+	}
+}
+
+@mixin genericons-neue-plugin() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f439";
+	}
+}
+
+@mixin genericons-neue-plus() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f510";
+	}
+}
+
+@mixin genericons-neue-previous() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f430";
+	}
+}
+
+@mixin genericons-neue-print() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f469";
+	}
+}
+
+@mixin genericons-neue-quote() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f106";
+	}
+}
+
+@mixin genericons-neue-refresh() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f420";
+	}
+}
+
+@mixin genericons-neue-reply() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f466";
+	}
+}
+
+@mixin genericons-neue-rewind() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f459";
+	}
+}
+
+@mixin genericons-neue-search() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f400";
+	}
+}
+
+@mixin genericons-neue-send-to-phone() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f438";
+	}
+}
+
+@mixin genericons-neue-send-to-tablet() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f454";
+	}
+}
+
+@mixin genericons-neue-share() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f415";
+	}
+}
+
+@mixin genericons-neue-show() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f403";
+	}
+}
+
+@mixin genericons-neue-shuffle() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f514";
+	}
+}
+
+@mixin genericons-neue-sitemap() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f507";
+	}
+}
+
+@mixin genericons-neue-skip-ahead() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f451";
+	}
+}
+
+@mixin genericons-neue-skip-back() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f450";
+	}
+}
+
+@mixin genericons-neue-spam() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f424";
+	}
+}
+
+@mixin genericons-neue-standard() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f100";
+	}
+}
+
+@mixin genericons-neue-star-empty() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f511";
+	}
+}
+
+@mixin genericons-neue-star-half() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f513";
+	}
+}
+
+@mixin genericons-neue-star() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f408";
+	}
+}
+
+@mixin genericons-neue-status() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f105";
+	}
+}
+
+@mixin genericons-neue-stop() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f449";
+	}
+}
+
+@mixin genericons-neue-subscribe() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f463";
+	}
+}
+
+@mixin genericons-neue-subscribed() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f465";
+	}
+}
+
+@mixin genericons-neue-summary() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f425";
+	}
+}
+
+@mixin genericons-neue-tablet() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f453";
+	}
+}
+
+@mixin genericons-neue-tag() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f302";
+	}
+}
+
+@mixin genericons-neue-time() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f303";
+	}
+}
+
+@mixin genericons-neue-top() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f435";
+	}
+}
+
+@mixin genericons-neue-trash() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f407";
+	}
+}
+
+@mixin genericons-neue-unapprove() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f446";
+	}
+}
+
+@mixin genericons-neue-unsubscribe() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f464";
+	}
+}
+
+@mixin genericons-neue-unzoom() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f401";
+	}
+}
+
+@mixin genericons-neue-user() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f304";
+	}
+}
+
+@mixin genericons-neue-video() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f104";
+	}
+}
+
+@mixin genericons-neue-videocamera() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f517";
+	}
+}
+
+@mixin genericons-neue-warning() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f414";
+	}
+}
+
+@mixin genericons-neue-website() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f475";
+	}
+}
+
+@mixin genericons-neue-week() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f306";
+	}
+}
+
+@mixin genericons-neue-xpost() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f504";
+	}
+}
+
+@mixin genericons-neue-zoom() {
+	&:before {
+		font-family: "Genericons-Neue";
+		content: "\f402";
+	}
+}

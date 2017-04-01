@@ -6,6 +6,7 @@
 /// <reference path="./FileListView.ts" />
 /// <reference path="./Viewer.ts" />
 /// <reference path="./FileData.ts" />
+/// <reference path="./GapiMgr.ts" />
 
 declare namespace gapi.client {
 	export var drive:Drive;

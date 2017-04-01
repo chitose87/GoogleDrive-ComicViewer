@@ -479,75 +479,131 @@ textarea,
 [hidden][aria-hidden="false"]:focus {
   clip: auto; }
 
-#content .search-box {
-  position: absolute;
-  line-height: 2rem;
-  top: 0;
-  left: 0;
-  z-index: 10; }
+@font-face {
+  font-family: "Genericons-Neue";
+  src: url("Genericons-Neue.eot?3d5e5abe2b62a2e8105ddf2de82c02cd");
+  src: url("Genericons-Neue.eot?#iefix") format("embedded-opentype"), url("Genericons-Neue.ttf?3d5e5abe2b62a2e8105ddf2de82c02cd") format("truetype");
+  font-weight: normal;
+  font-style: normal; }
+html, body {
+  height: 100%; }
 
-#viewer {
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  top: 0;
-  left: 0; }
-  #viewer .left {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 50%;
-    height: 100%;
-    background-position: 100% 50%;
-    background-size: contain; }
-  #viewer .right {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 50%;
-    height: 100%;
-    background-position: 0% 50%;
-    background-size: contain; }
-  #viewer .ui {
-    position: absolute;
+#content {
+  height: 100%; }
+  #content .search-box {
+    display: none; }
+  #content #result {
     width: 100%;
     height: 100%;
+    overflow-x: scroll; }
+    #content #result .fileList {
+      width: 100%;
+      height: 100%;
+      white-space: nowrap; }
+      #content #result .fileList ul {
+        display: inline-block;
+        top: 0;
+        width: calc(100% / 3);
+        min-width: 20rem;
+        height: 100%;
+        list-style: none;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        margin: 0;
+        padding: 0 0 0 10px;
+        transition: width 0.4s cubic-bezier(0.785, 0.135, 0.15, 0.86); }
+        #content #result .fileList ul li {
+          white-space: nowrap;
+          overflow-x: scroll;
+          line-height: 2; }
+          #content #result .fileList ul li:before {
+            font-family: "Genericons-Neue";
+            content: "\f101"; }
+          #content #result .fileList ul li:before {
+            margin: 0px 0.5rem; }
+          #content #result .fileList ul li.folder:before {
+            font-family: "Genericons-Neue";
+            content: "\f301"; }
+          #content #result .fileList ul li.image:before {
+            font-family: "Genericons-Neue";
+            content: "\f473"; }
+          #content #result .fileList ul li.select {
+            background-color: #aaa; }
+  #content #viewer {
+    width: 100%;
+    height: 100%;
+    position: fixed;
     top: 0;
     left: 0; }
-    #viewer .ui .nextBtn, #viewer .ui .prevBtn, #viewer .ui .menuBtn, #viewer .ui .seekBar {
+    #content #viewer .left {
       position: absolute;
-      opacity: 0;
-      background-color: #000;
-      border-radius: 10px; }
-    #viewer .ui .nextBtn {
+      top: 0;
       left: 0;
+      width: 50%;
+      height: 100%;
+      background-position: 100% 50%;
+      background-size: contain; }
+    #content #viewer .right {
+      position: absolute;
       top: 0;
-      height: calc(100% - 5rem);
-      width: 30%; }
-    #viewer .ui .prevBtn {
       right: 0;
-      top: 0;
-      height: calc(100% - 5rem);
-      width: 30%; }
-    #viewer .ui .menuBtn {
-      width: 40%;
-      height: calc(100% - 5rem);
-      top: 0;
-      left: 30%; }
-    #viewer .ui .seekBar {
-      height: 5rem;
+      width: 50%;
+      height: 100%;
+      background-position: 0% 50%;
+      background-size: contain; }
+    #content #viewer .ui {
+      position: absolute;
       width: 100%;
-      bottom: 0;
+      height: 100%;
+      top: 0;
       left: 0; }
-      #viewer .ui .seekBar .nov {
+      #content #viewer .ui .nextBtn, #content #viewer .ui .prevBtn, #content #viewer .ui .menuBtn, #content #viewer .ui .seekBar {
         position: absolute;
+        opacity: 0;
+        background-color: #000;
+        border-radius: 10px; }
+      #content #viewer .ui .nextBtn {
+        left: 0;
         top: 0;
-        border-radius: 50%;
-        background-color: red;
-        width: 5rem;
+        height: calc(100% - 5rem);
+        width: 30%; }
+      #content #viewer .ui .prevBtn {
+        right: 0;
+        top: 0;
+        height: calc(100% - 5rem);
+        width: 30%; }
+      #content #viewer .ui .menuBtn {
+        width: 40%;
+        height: calc(100% - 5rem);
+        top: 0;
+        left: 30%; }
+        #content #viewer .ui .menuBtn a.listBtn:before {
+          font-family: "Genericons-Neue";
+          content: "\f505"; }
+      #content #viewer .ui .seekBar {
         height: 5rem;
-        margin-left: -2.5rem; }
-    #viewer .ui.show .nextBtn, #viewer .ui.show .prevBtn, #viewer .ui.show .menuBtn, #viewer .ui.show .seekBar {
-      opacity: 0.5; }
+        width: 100%;
+        bottom: 0;
+        left: 0; }
+        #content #viewer .ui .seekBar .nov {
+          position: absolute;
+          top: 0;
+          border-radius: 50%;
+          background-color: red;
+          width: 5rem;
+          height: 5rem;
+          margin-left: -2.5rem; }
+      #content #viewer .ui.show .nextBtn, #content #viewer .ui.show .prevBtn, #content #viewer .ui.show .menuBtn, #content #viewer .ui.show .seekBar {
+        opacity: 0.5; }
+
+#content #result {
+  transition: transform 0.3s cubic-bezier(0.785, 0.135, 0.15, 0.86); }
+#content #viewer {
+  transition: transform 0.3s cubic-bezier(0.785, 0.135, 0.15, 0.86);
+  transform: translateX(100%); }
+#content[data-mode="viewer"] #result {
+  transform: translateX(-100%); }
+#content[data-mode="viewer"] #viewer {
+  transform: translateX(0); }
 
 /*# sourceMappingURL=index.css.map */

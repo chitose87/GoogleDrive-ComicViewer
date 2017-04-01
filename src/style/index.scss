@@ -1,91 +1,189 @@
 @import "../../bower_components/bourbon/app/assets/stylesheets/_bourbon";
 @import "../../bower_components/sanitize-css/sanitize.scss";
+@import "./genericons.scss";
 
 @charset "utf-8";
 
+$color_red: #f00;
+$color_green: #0F0;
+$color_blue: #145796;
+$color_white: #fff;
+$color_light_gray: #aaa;
+$color_black: #000;
+
+$color_yellow: #fff100;
+
+$layerLavel-back: 0;
+$layerLavel-normal: 5;
+$layerLavel-over: 10;
+$layerLavel-modal: 20;
+
+html, body {
+	height: 100%;
+}
+
 #content {
+	height: 100%;
 	.search-box {
-		position: absolute;
-		line-height: 2rem;
+		display: none;
+		//position: absolute;
+		//line-height: 2rem;
+		//top: 0;
+		//left: 0;
+		//z-index: 10;
+	}
+	#result {
+		width: 100%;
+		height: 100%;
+		overflow-x: scroll;
+		.fileList {
+			width: 100%;
+			height: 100%;
+			white-space: nowrap;
+			ul {
+				display: inline-block;
+				top: 0;
+				width: calc(100% / 3);
+				min-width: 20rem;
+				height: 100%;
+				list-style: none;
+				overflow-x: hidden;
+				overflow-y: scroll;
+				margin: 0;
+				padding: 0 0 0 10px;
+				transition: width 0.4s $ease-in-out-circ;
+				li {
+					@include genericons-neue-aside;
+					white-space: nowrap;
+					overflow-x: scroll;
+					&:before {
+						margin: 0px 0.5rem;
+					}
+					line-height: 2;
+					&.folder {
+						@include genericons-neue-category;
+					}
+					&.image {
+						@include genericons-neue-picture;
+					}
+					&.select {
+						background-color: $color_light_gray;
+					}
+				}
+			}
+			//&[data-calam="1"] {
+			//	ul {
+			//		width: 100%;
+			//	}
+			//}
+			//&[data-calam="2"] {
+			//	ul {
+			//		width: 50%;
+			//	}
+			//}
+		}
+	}
+	#viewer {
+		width: 100%;
+		height: 100%;
+		position: fixed;
 		top: 0;
 		left: 0;
-		z-index: 10;
+		.left {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 50%;
+			height: 100%;
+			background-position: 100% 50%;
+			background-size: contain;
+		}
+		.right {
+			position: absolute;
+			top: 0;
+			right: 0;
+			width: 50%;
+			height: 100%;
+			background-position: 0% 50%;
+			background-size: contain;
+		}
+		.ui {
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			top: 0;
+			left: 0;
+			.nextBtn, .prevBtn, .menuBtn, .seekBar {
+				position: absolute;
+				opacity: 0;
+				background-color: #000;
+				border-radius: 10px;
+			}
+			.nextBtn {
+				left: 0;
+				top: 0;
+				height: calc(100% - 5rem);
+				width: 30%;
+			}
+			.prevBtn {
+				right: 0;
+				top: 0;
+				height: calc(100% - 5rem);
+				width: 30%;
+			}
+			.menuBtn {
+				width: 40%;
+				height: calc(100% - 5rem);
+				top: 0;
+				left: 30%;
+
+				a.listBtn {
+					@include genericons-neue-hierarchy;
+				}
+			}
+			.seekBar {
+				height: 5rem;
+				width: 100%;
+				bottom: 0;
+				left: 0;
+				.nov {
+					position: absolute;
+					top: 0;
+					border-radius: 50%;
+					background-color: red;
+					width: 5rem;
+					height: 5rem;
+					margin-left: -2.5rem;
+				}
+			}
+			&.show {
+				.nextBtn, .prevBtn, .menuBtn, .seekBar {
+					opacity: 0.5;
+				}
+			}
+		}
+	}
+
+}
+
+#content {
+	& {
+		#result {
+			transition: transform 0.3s $ease-in-out-circ;
+		}
+		#viewer {
+			transition: transform 0.3s $ease-in-out-circ;
+			transform: translateX(100%);
+		}
+	}
+
+	&[data-mode="viewer"] {
+		#result {
+			transform: translateX(-100%);
+		}
+		#viewer {
+			transform: translateX(0);
+		}
 	}
 }
 
-#viewer {
-	width: 100%;
-	height: 100%;
-	position: fixed;
-	top: 0;
-	left: 0;
-	.left {
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 50%;
-		height: 100%;
-		background-position: 100% 50%;
-		background-size: contain;
-	}
-	.right {
-		position: absolute;
-		top: 0;
-		right: 0;
-		width: 50%;
-		height: 100%;
-		background-position: 0% 50%;
-		background-size: contain;
-	}
-	.ui {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		top: 0;
-		left: 0;
-		.nextBtn, .prevBtn, .menuBtn, .seekBar {
-			position: absolute;
-			opacity: 0;
-			background-color: #000;
-			border-radius: 10px;
-		}
-		.nextBtn {
-			left: 0;
-			top: 0;
-			height: calc(100% - 5rem);
-			width: 30%;
-		}
-		.prevBtn {
-			right: 0;
-			top: 0;
-			height: calc(100% - 5rem);
-			width: 30%;
-		}
-		.menuBtn {
-			width: 40%;
-			height: calc(100% - 5rem);
-			top: 0;
-			left: 30%;
-		}
-		.seekBar {
-			height: 5rem;
-			width: 100%;
-			bottom: 0;
-			left: 0;
-			.nov {
-				position: absolute;
-				top: 0;
-				border-radius: 50%;
-				background-color: red;
-				width: 5rem;
-				height: 5rem;
-				margin-left: -2.5rem;
-			}
-		}
-		&.show {
-			.nextBtn, .prevBtn, .menuBtn, .seekBar {
-				opacity: 0.5;
-			}
-		}
-	}
-}

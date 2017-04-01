@@ -19,6 +19,7 @@
   "homepage": "https://github.com/chitose87/GoogleDrive-ComicViewer#readme",
   "dependencies": {
     "@types/gapi": "0.0.30",
-    "@types/jquery": "^2.0.40"
+    "@types/jquery": "^2.0.40",
+    "genericons-neue": "^4.0.5"
   }
 }

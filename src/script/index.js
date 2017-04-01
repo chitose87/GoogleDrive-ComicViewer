@@ -2,29 +2,41 @@
 var Main = (function () {
     function Main() {
         var _this = this;
+        this.content = $("#content");
         this.searchText = $("[data-js='searchText']");
         this.searchBtn = $("[data-js='searchBtn']");
         this.viewer = new Viewer();
         this.fileListView = new FileListView();
         AccountMgr.init(function () { return _this.onLogin(); });
-        this.searchBtn.on("click", function () { return _this.search(); });
+        // this.searchBtn.on("click", ()=>this.search());
     }
     Main.prototype.onLogin = function () {
+        var _this = this;
         this.searchText.val("https://drive.google.com/drive/u/2/folders/0B31JYfRnUWcPN2NjQXJXd3J4T2M");
-        // console.log("onLogin", gapi.client);
-        //https://drive.google.com/drive/u/2/folders/0B31JYfRnUWcPN2NjQXJXd3J4T2M
-        // gapi.client.drive.files.get({
-        // 	fileId: "0B31JYfRnUWcPN2NjQXJXd3J4T2M"
-        // }).then((e)=> {
-        // 	console.log(e);
-        // })
+        this.fileListView
+            .init()
+            .onSelect(function (parentData, targetData) {
+            _this.viewer.start(parentData);
+            location.hash = "#viewer";
+            // this.content.attr("data-mode", "viewer");
+        });
+        $(window).on("hashchange", function () {
+            switch (location.hash) {
+                case "#viewer":
+                    _this.content.attr("data-mode", "viewer");
+                    break;
+                default:
+                    _this.content.attr("data-mode", "");
+                    location.hash = "";
+            }
+        }).trigger("hashchange");
     };
     Main.prototype.search = function () {
         var str = this.searchText.val();
         if (str.indexOf("drive.google.com") >= 0 && str.indexOf("folders") >= 0) {
             str = str.split("folders/")[1];
         }
-        this.viewer.start(str);
+        // this.viewer.start(str);
         // this.fileListView.clear();
     };
     Main.prototype.show = function (e) {
@@ -126,39 +138,6 @@ var AccountMgr = (function () {
     return AccountMgr;
 }());
 /// <reference path="./libs.d.ts" />
-var FileListView = (function () {
-    function FileListView() {
-        this.jq = $("[data-js='fileList']");
-        this.element = $("<li>" +
-            "<a>" +
-            // "<img />" +
-            "<p class='name'></p>" +
-            "</a>" +
-            "</li>");
-        // this.element.append()
-    }
-    FileListView.prototype.clear = function () {
-    };
-    FileListView.prototype.add = function (files) {
-        for (var i = 0; i < files.length; i++) {
-            var file = files[i];
-            var element = this.element.clone();
-            element.data("id", file.id);
-            element.data("mimeType", file.mimeType);
-            element.find(".name").html(file.name);
-            // element.find("img").attr("src", );
-            this.jq.append(element);
-        }
-    };
-    return FileListView;
-}());
-/// <reference path="./libs.d.ts" />
-var FileData = (function () {
-    function FileData() {
-    }
-    return FileData;
-}());
-/// <reference path="./libs.d.ts" />
 var Viewer = (function () {
     // public pageTemplate:JQuery = $("<div>" +
     // 	"<div class='left'></div>" +
@@ -184,9 +163,29 @@ var Viewer = (function () {
             _this.seek(Math.floor((1 - e.offsetX / _this.seekBar.width()) * _this.files.length));
         });
     }
-    Viewer.prototype.start = function (folderID) {
-        this.folderID = folderID;
+    Viewer.prototype.start = function (data) {
+        this.data = data;
         this.files = [];
+        var ldr = new GapiListLoader(true, data.id)
+            .onUpdate(function (data) {
+            for (var i = 0; i < data.length; i++) {
+                var dataEle = data[i];
+                var li = $("<li></li>")
+                    .html(dataEle.name)
+                    .data("data", dataEle)
+                    .attr("data-id", dataEle.id);
+                if (dataEle.mimeType.indexOf("folder") >= 0)
+                    li.addClass("folder");
+                if (dataEle.mimeType.indexOf("image") >= 0)
+                    li.addClass("image");
+                ullv.append(li);
+            }
+            // this.sort(ullv);
+        })
+            .onComplete(function (allData) {
+            console.log("onComplete", allData);
+        })
+            .start();
         this.read();
     };
     Viewer.prototype.read = function (pageToken) {
@@ -207,32 +206,31 @@ var Viewer = (function () {
         });
     };
     Viewer.prototype.seek = function (number) {
+        if (this.loadStop)
+            this.loadStop();
         if (number >= this.files.length)
             number = this.files.length - 1;
         if (number < 0)
             number = 0;
-        if (number % 2 == 1)
-            number -= 1;
+        // if (number % 2 == 1)number -= 1;
         this.currentPage = number;
-        var rFile = this.files[number];
-        var lFile = this.files[number + 1];
-        this.setView(rFile, this.rightView);
-        this.setView(lFile, this.leftView);
+        this.setView(number, this.rightView);
+        this.setView(number + 1, this.leftView);
     };
-    Viewer.prototype.setView = function (file, view) {
+    Viewer.prototype.setView = function (index, view) {
+        var _this = this;
+        var file = this.files[index];
         if (file) {
             if (file.isLoaded) {
                 setPicture();
             }
             else {
-                file.path = "https://lh3.google.com/u/2/d/" + file.id;
-                var img = new Image();
-                img.onload = function () {
-                    file.isLoaded = true;
+                this.loadPicture(file, function () {
                     setPicture();
-                };
-                img.src = file.path;
-                file.img = img;
+                    if (view == _this.leftView) {
+                        _this.loadStop = _this.backGroundLoad(index + 1);
+                    }
+                });
             }
         }
         function setPicture() {
@@ -242,6 +240,178 @@ var Viewer = (function () {
     Viewer.prototype.toggleMenu = function () {
         this.ui.toggleClass("show");
     };
+    Viewer.prototype.backGroundLoad = function (index) {
+        var _this = this;
+        var file = this.files[index];
+        if (!file) {
+            return;
+        }
+        else if (file.isLoaded) {
+            return this.backGroundLoad(index + 1);
+        }
+        else {
+            var cancael = false;
+            this.loadPicture(file, function () {
+                if (cancael)
+                    return;
+                _this.loadStop = _this.backGroundLoad(index);
+            });
+            return function () { return cancael = true; };
+        }
+    };
+    Viewer.prototype.loadPicture = function (file, callBack) {
+        file.path = "https://lh3.google.com/u/2/d/" + file.id;
+        file.img = new Image();
+        file.img.onload = function () {
+            file.isLoaded = true;
+            callBack();
+        };
+        file.img.src = file.path;
+    };
     return Viewer;
+}());
+/// <reference path="./libs.d.ts" />
+var FileData = (function () {
+    function FileData() {
+    }
+    return FileData;
+}());
+/// <reference path="./libs.d.ts" />
+var GapiMgr = (function () {
+    function GapiMgr() {
+    }
+    return GapiMgr;
+}());
+var GapiListLoader = (function () {
+    function GapiListLoader(isLoop, folderID) {
+        this.files = [];
+        this.pageToken = "";
+        this.isLoop = isLoop;
+        this.folderID = folderID;
+    }
+    GapiListLoader.prototype.onUpdate = function (callBack) {
+        this._onUpdate = callBack;
+        return this;
+    };
+    GapiListLoader.prototype.onComplete = function (callBack) {
+        this._onComplete = callBack;
+        return this;
+    };
+    GapiListLoader.prototype.start = function () {
+        this._read();
+        return this;
+    };
+    GapiListLoader.prototype._read = function () {
+        var _this = this;
+        gapi.client.drive.files.list({
+            q: "'" + this.folderID + "' in parents and trashed = false",
+            orderBy: "folder,name",
+            pageToken: this.pageToken
+        }).then(function (e) {
+            _this.files = _this.files.concat(e.result.files);
+            if (_this._onUpdate)
+                _this._onUpdate(e.result.files);
+            if (e.result.nextPageToken && e.result.nextPageToken.length > 0) {
+                _this.pageToken = e.result.nextPageToken;
+                if (_this.isLoop)
+                    _this._read();
+            }
+            else if (_this._onComplete) {
+                _this._onComplete(_this.files);
+            }
+        });
+    };
+    return GapiListLoader;
+}());
+/// <reference path="./libs.d.ts" />
+var FileListView = (function () {
+    function FileListView() {
+        var _this = this;
+        this.jq = $("[data-js='fileList']");
+        this.element = $("<li>" +
+            "<a>" +
+            // "<img />" +
+            "<p class='name'></p>" +
+            "</a>" +
+            "</li>");
+        this.jq.on("click", function (e) {
+            var via = $(e.target);
+            var target;
+            if ((target = via.hasClass("folder") ? via : via.parent(".folder")).length) {
+                // folder
+                _this.setFolder(target);
+            }
+            else if ((target = via.hasClass("image") ? via : via.parent(".image")).length) {
+                // image
+                // var lv = this.refreshFolder(target) - 2;
+                // var ullv = this.jq.find("[data-lv=" + lv + "]");
+                //
+                // var select:JQuery = ullv.find(".select");
+                _this._onSelect(target.parent("ul").data("data"), target.data("data"));
+            }
+        });
+    }
+    FileListView.prototype.init = function () {
+        this.setFolder();
+        return this;
+    };
+    FileListView.prototype.onSelect = function (callBack) {
+        this._onSelect = callBack;
+        return this;
+    };
+    FileListView.prototype.clear = function () {
+    };
+    //
+    FileListView.prototype.refreshFolder = function (viaElement) {
+        var $ul = viaElement.parent("ul");
+        var lv = parseInt($ul.data("lv")) + 1;
+        var _lv = lv;
+        while (true) {
+            var _jq = this.jq.find("[data-lv=" + _lv + "]");
+            if (_jq.length) {
+                _jq.remove();
+                _lv++;
+            }
+            else
+                break;
+        }
+        viaElement.parent().find("li").removeClass("select");
+        viaElement.addClass("select");
+        return lv;
+    };
+    // フォルダーリストを表示
+    FileListView.prototype.setFolder = function (viaElement) {
+        if (viaElement === void 0) { viaElement = null; }
+        console.log("setFolder", viaElement);
+        var lv = 0;
+        var folderID = "root";
+        if (viaElement) {
+            lv = this.refreshFolder(viaElement);
+            folderID = viaElement.data("data").id;
+        }
+        var ullv = $("<ul></ul>").attr("data-lv", lv);
+        this.jq.append(ullv);
+        var ldr = new GapiListLoader(true, folderID)
+            .onUpdate(function (data) {
+            for (var i = 0; i < data.length; i++) {
+                var dataEle = data[i];
+                var li = $("<li></li>")
+                    .html(dataEle.name)
+                    .data("data", dataEle)
+                    .attr("data-id", dataEle.id);
+                if (dataEle.mimeType.indexOf("folder") >= 0)
+                    li.addClass("folder");
+                if (dataEle.mimeType.indexOf("image") >= 0)
+                    li.addClass("image");
+                ullv.append(li);
+            }
+            // this.sort(ullv);
+        })
+            .onComplete(function (allData) {
+            console.log("onComplete", allData);
+        })
+            .start();
+    };
+    return FileListView;
 }());
 //# sourceMappingURL=index.js.map
