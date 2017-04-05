@@ -165,7 +165,7 @@ var Viewer = (function () {
         this.menuBtn.on("click", function () { return _this.toggleMenu(); });
         this.seekBar.on("click", function (e) {
             _this.nov.css("left", e.offsetX);
-            _this.seek(Math.floor((1 - e.offsetX / _this.seekBar.width()) * _this.files.length));
+            _this.seek(Math.floor((1 - e.offsetX / _this.seekBar.width()) * _this.listData.length));
         });
         $(window).on("resize", function () { return _this.resize(); });
     }
