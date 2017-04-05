@@ -5,7 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "libs": "find ./ -type f | grep -f Grepfile | xargs awk '{ print }' > ./src/script/libs.js"
+    "libs": "find ./ -type f | grep -f Grepfile | xargs awk '{ print }' > ./src/script/libs.js",
+    "dist:clean": "rimraf ./dist",
+    "dist:copy": "cpx \"./src/**/{*.html,*.eot,*.svg,*.ttf,*.woff,*.js,*.css,*.jpg,*.png,*.gif}\" ./dist",
+    "dist:clean_damii": "rimraf ./dist/**/_*",
+    "dist": "npm-run-all dist:clean dist:copy dist:clean_damii"
   },
   "repository": {
     "type": "git",
