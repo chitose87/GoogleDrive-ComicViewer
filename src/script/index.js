@@ -15,8 +15,8 @@ var Main = (function () {
         this.searchText.val("https://drive.google.com/drive/u/2/folders/0B31JYfRnUWcPN2NjQXJXd3J4T2M");
         this.fileListView
             .init()
-            .onSelect(function (parentData, targetData) {
-            _this.viewer.start(parentData);
+            .onSelect(function (listData, index) {
+            _this.viewer.start(listData, index);
             location.hash = "#viewer";
             // this.content.attr("data-mode", "viewer");
         });
@@ -138,36 +138,77 @@ var AccountMgr = (function () {
     return AccountMgr;
 }());
 /// <reference path="./libs.d.ts" />
-var Viewer = (function () {
-    // public pageTemplate:JQuery = $("<div>" +
-    // 	"<div class='left'></div>" +
-    // 	"<div class='right'></div>" +
-    // 	"</div>");
-    // public
-    function Viewer() {
+var FileListView = (function () {
+    function FileListView() {
         var _this = this;
-        this.jq = $("[data-js='viewer']");
-        this.leftView = this.jq.find(".left");
-        this.rightView = this.jq.find(".right");
-        this.ui = this.jq.find(".ui");
-        this.nextBtn = this.jq.find(".nextBtn");
-        this.prevBtn = this.jq.find(".prevBtn");
-        this.menuBtn = this.jq.find(".menuBtn");
-        this.seekBar = this.jq.find(".seekBar");
-        this.nov = this.jq.find(".nov");
-        this.nextBtn.on("click", function () { return _this.seek(_this.currentPage + 2); });
-        this.prevBtn.on("click", function () { return _this.seek(_this.currentPage - 2); });
-        this.menuBtn.on("click", function () { return _this.toggleMenu(); });
-        this.seekBar.on("click", function (e) {
-            _this.nov.css("left", e.offsetX);
-            _this.seek(Math.floor((1 - e.offsetX / _this.seekBar.width()) * _this.files.length));
+        this.jq = $("[data-js='fileList']");
+        this.element = $("<li>" +
+            "<a>" +
+            // "<img />" +
+            "<p class='name'></p>" +
+            "</a>" +
+            "</li>");
+        this.jq.on("click", function (e) {
+            var via = $(e.target);
+            var target;
+            if ((target = via.hasClass("folder") ? via : via.parent(".folder")).length) {
+                // folder
+                _this.setFolder(target);
+            }
+            else if ((target = via.hasClass("image") ? via : via.parent(".image")).length) {
+                // image
+                // var lv = this.refreshFolder(target) - 2;
+                // var ullv = this.jq.find("[data-lv=" + lv + "]");
+                //
+                // var select:JQuery = ullv.find(".select");
+                _this._onSelect(target.parent("ul").data("data"), target.index());
+            }
         });
     }
-    Viewer.prototype.start = function (data) {
-        this.data = data;
-        this.files = [];
-        var ldr = new GapiListLoader(true, data.id)
+    FileListView.prototype.onSelect = function (callBack) {
+        this._onSelect = callBack;
+        return this;
+    };
+    FileListView.prototype.init = function () {
+        this.setFolder();
+        return this;
+    };
+    FileListView.prototype.clear = function () {
+    };
+    // 不要ディレクトリを非表示
+    FileListView.prototype.refreshFolder = function (viaElement) {
+        var $ul = viaElement.parent("ul");
+        var lv = parseInt($ul.data("lv")) + 1;
+        var _lv = lv;
+        while (true) {
+            var _jq = this.jq.find("[data-lv=" + _lv + "]");
+            if (_jq.length) {
+                _jq.remove();
+                _lv++;
+            }
+            else
+                break;
+        }
+        viaElement.parent().find("li").removeClass("select");
+        viaElement.addClass("select");
+        return lv;
+    };
+    // フォルダーリストを表示
+    FileListView.prototype.setFolder = function (viaElement) {
+        if (viaElement === void 0) { viaElement = null; }
+        console.log("setFolder", viaElement);
+        var lv = 0;
+        var folderID = "root";
+        if (viaElement) {
+            lv = this.refreshFolder(viaElement);
+            folderID = viaElement.data("data").id;
+        }
+        var ullv = $("<ul></ul>")
+            .attr("data-lv", lv);
+        this.jq.append(ullv);
+        var ldr = new GapiListLoader(true, folderID)
             .onUpdate(function (data) {
+            ullv.data("data", data);
             for (var i = 0; i < data.length; i++) {
                 var dataEle = data[i];
                 var li = $("<li></li>")
@@ -180,46 +221,65 @@ var Viewer = (function () {
                     li.addClass("image");
                 ullv.append(li);
             }
-            // this.sort(ullv);
         })
             .onComplete(function (allData) {
             console.log("onComplete", allData);
         })
             .start();
-        this.read();
     };
-    Viewer.prototype.read = function (pageToken) {
+    return FileListView;
+}());
+/// <reference path="./libs.d.ts" />
+var Viewer = (function () {
+    function Viewer() {
         var _this = this;
-        if (pageToken === void 0) { pageToken = ""; }
-        gapi.client.drive.files.list({
-            q: "'" + this.folderID + "' in parents",
-            orderBy: "name",
-            pageToken: pageToken
-        }).then(function (e) {
-            _this.files = _this.files.concat(e.result.files);
-            if (e.result.nextPageToken && e.result.nextPageToken.length > 0) {
-                _this.read(e.result.nextPageToken);
-            }
-            else {
-                _this.seek(0);
-            }
+        this.jq = $("[data-js='viewer']");
+        this.leftView = this.jq.find(".left");
+        this.rightView = this.jq.find(".right");
+        this.ui = this.jq.find(".ui");
+        this.nextBtn = this.jq.find(".nextBtn");
+        this.prevBtn = this.jq.find(".prevBtn");
+        this.menuBtn = this.jq.find(".menuBtn");
+        this.seekBar = this.jq.find(".seekBar");
+        this.nov = this.jq.find(".nov");
+        this.nextBtn.on("click", function () { return _this.seek(_this.currentPage + (_this.isDouble ? 2 : 1)); });
+        this.prevBtn.on("click", function () { return _this.seek(_this.currentPage - (_this.isDouble ? 2 : 1)); });
+        this.menuBtn.on("click", function () { return _this.toggleMenu(); });
+        this.seekBar.on("click", function (e) {
+            _this.nov.css("left", e.offsetX);
+            _this.seek(Math.floor((1 - e.offsetX / _this.seekBar.width()) * _this.files.length));
         });
+        $(window).on("resize", function () { return _this.resize(); });
+    }
+    Viewer.prototype.resize = function () {
+        var w = this.jq.width();
+        var h = this.jq.height();
+        this.isDouble = h < w;
+        this.jq.attr("data-layout", this.isDouble ? "double" : "single");
+        this.seek(this.currentPage);
+    };
+    Viewer.prototype.start = function (listData, index) {
+        if (index === void 0) { index = 0; }
+        this.listData = listData;
+        this.currentPage = index;
+        this.resize();
     };
     Viewer.prototype.seek = function (number) {
         if (this.loadStop)
             this.loadStop();
-        if (number >= this.files.length)
-            number = this.files.length - 1;
+        if (number >= this.listData.length)
+            number = this.listData.length - 1;
         if (number < 0)
             number = 0;
         // if (number % 2 == 1)number -= 1;
         this.currentPage = number;
         this.setView(number, this.rightView);
-        this.setView(number + 1, this.leftView);
+        if (this.isDouble)
+            this.setView(number + 1, this.leftView);
     };
     Viewer.prototype.setView = function (index, view) {
         var _this = this;
-        var file = this.files[index];
+        var file = this.listData[index];
         if (file) {
             if (file.isLoaded) {
                 setPicture();
@@ -242,7 +302,7 @@ var Viewer = (function () {
     };
     Viewer.prototype.backGroundLoad = function (index) {
         var _this = this;
-        var file = this.files[index];
+        var file = this.listData[index];
         if (!file) {
             return;
         }
@@ -322,96 +382,5 @@ var GapiListLoader = (function () {
         });
     };
     return GapiListLoader;
-}());
-/// <reference path="./libs.d.ts" />
-var FileListView = (function () {
-    function FileListView() {
-        var _this = this;
-        this.jq = $("[data-js='fileList']");
-        this.element = $("<li>" +
-            "<a>" +
-            // "<img />" +
-            "<p class='name'></p>" +
-            "</a>" +
-            "</li>");
-        this.jq.on("click", function (e) {
-            var via = $(e.target);
-            var target;
-            if ((target = via.hasClass("folder") ? via : via.parent(".folder")).length) {
-                // folder
-                _this.setFolder(target);
-            }
-            else if ((target = via.hasClass("image") ? via : via.parent(".image")).length) {
-                // image
-                // var lv = this.refreshFolder(target) - 2;
-                // var ullv = this.jq.find("[data-lv=" + lv + "]");
-                //
-                // var select:JQuery = ullv.find(".select");
-                _this._onSelect(target.parent("ul").data("data"), target.data("data"));
-            }
-        });
-    }
-    FileListView.prototype.init = function () {
-        this.setFolder();
-        return this;
-    };
-    FileListView.prototype.onSelect = function (callBack) {
-        this._onSelect = callBack;
-        return this;
-    };
-    FileListView.prototype.clear = function () {
-    };
-    //
-    FileListView.prototype.refreshFolder = function (viaElement) {
-        var $ul = viaElement.parent("ul");
-        var lv = parseInt($ul.data("lv")) + 1;
-        var _lv = lv;
-        while (true) {
-            var _jq = this.jq.find("[data-lv=" + _lv + "]");
-            if (_jq.length) {
-                _jq.remove();
-                _lv++;
-            }
-            else
-                break;
-        }
-        viaElement.parent().find("li").removeClass("select");
-        viaElement.addClass("select");
-        return lv;
-    };
-    // フォルダーリストを表示
-    FileListView.prototype.setFolder = function (viaElement) {
-        if (viaElement === void 0) { viaElement = null; }
-        console.log("setFolder", viaElement);
-        var lv = 0;
-        var folderID = "root";
-        if (viaElement) {
-            lv = this.refreshFolder(viaElement);
-            folderID = viaElement.data("data").id;
-        }
-        var ullv = $("<ul></ul>").attr("data-lv", lv);
-        this.jq.append(ullv);
-        var ldr = new GapiListLoader(true, folderID)
-            .onUpdate(function (data) {
-            for (var i = 0; i < data.length; i++) {
-                var dataEle = data[i];
-                var li = $("<li></li>")
-                    .html(dataEle.name)
-                    .data("data", dataEle)
-                    .attr("data-id", dataEle.id);
-                if (dataEle.mimeType.indexOf("folder") >= 0)
-                    li.addClass("folder");
-                if (dataEle.mimeType.indexOf("image") >= 0)
-                    li.addClass("image");
-                ullv.append(li);
-            }
-            // this.sort(ullv);
-        })
-            .onComplete(function (allData) {
-            console.log("onComplete", allData);
-        })
-            .start();
-    };
-    return FileListView;
 }());
 //# sourceMappingURL=index.js.map

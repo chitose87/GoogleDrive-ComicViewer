@@ -17,8 +17,8 @@ class Main {
 		this.searchText.val("https://drive.google.com/drive/u/2/folders/0B31JYfRnUWcPN2NjQXJXd3J4T2M");
 		this.fileListView
 			.init()
-			.onSelect((parentData:any, targetData:any)=> {
-				this.viewer.start(parentData);
+			.onSelect((listData:any, index:number)=> {
+				this.viewer.start(listData,index);
 				location.hash = "#viewer";
 				// this.content.attr("data-mode", "viewer");
 			});

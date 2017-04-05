@@ -6,3 +6,4 @@ bower install sanitize-css --save && css-scss ./bower_components/sanitize-css/sa
 npm init
 npm install --save @types/jquery
 npm install --save @types/gapi
+npm install --save @types/vue

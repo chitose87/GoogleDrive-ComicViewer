@@ -20,6 +20,7 @@
   "dependencies": {
     "@types/gapi": "0.0.30",
     "@types/jquery": "^2.0.40",
+    "@types/vue": "^2.0.0",
     "genericons-neue": "^4.0.5"
   }
 }

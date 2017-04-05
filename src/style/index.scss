@@ -93,18 +93,18 @@ html, body {
 			position: absolute;
 			top: 0;
 			left: 0;
-			width: 50%;
+			//width: 50%;
 			height: 100%;
-			background-position: 100% 50%;
+			//background-position: 100% 50%;
 			background-size: contain;
 		}
 		.right {
 			position: absolute;
 			top: 0;
 			right: 0;
-			width: 50%;
+			//width: 50%;
 			height: 100%;
-			background-position: 0% 50%;
+			//background-position: 0% 50%;
 			background-size: contain;
 		}
 		.ui {
@@ -160,6 +160,27 @@ html, body {
 				.nextBtn, .prevBtn, .menuBtn, .seekBar {
 					opacity: 0.5;
 				}
+			}
+		}
+
+		&[data-layout="single"] {
+			.left {
+				display: none;
+			}
+			.right {
+				width: 100%;
+				background-position: center center;
+			}
+
+		}
+		&[data-layout="double"] {
+			.left {
+				width: 50%;
+				background-position: 100% 50%;
+			}
+			.right {
+				width: 50%;
+				background-position: 0% 50%;
 			}
 		}
 	}

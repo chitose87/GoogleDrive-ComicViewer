@@ -11,6 +11,11 @@ class FileListView {
 
 	private _onSelect:(parentData:any, targetData:any)=>void;
 
+	public onSelect(callBack:(data:any)=>void):FileListView {
+		this._onSelect = callBack;
+		return this;
+	}
+
 	constructor() {
 
 		this.jq.on("click", (e)=> {
@@ -26,7 +31,7 @@ class FileListView {
 				// var ullv = this.jq.find("[data-lv=" + lv + "]");
 				//
 				// var select:JQuery = ullv.find(".select");
-				this._onSelect(target.parent("ul").data("data"), target.data("data"));
+				this._onSelect(target.parent("ul").data("data"), target.index());
 			}
 		})
 	}
@@ -36,16 +41,12 @@ class FileListView {
 		return this;
 	}
 
-	onSelect(callBack:(data:any)=>void):FileListView {
-		this._onSelect = callBack;
-		return this;
-	}
 
 	clear() {
 
 	}
 
-	//
+	// 不要ディレクトリを非表示
 	private refreshFolder(viaElement:JQuery):number {
 		var $ul:JQuery = viaElement.parent("ul");
 		var lv = parseInt($ul.data("lv")) + 1;
@@ -72,11 +73,13 @@ class FileListView {
 			folderID = viaElement.data("data").id;
 		}
 
-		var ullv:JQuery = $("<ul></ul>").attr("data-lv", lv);
+		var ullv:JQuery = $("<ul></ul>")
+			.attr("data-lv", lv);
 		this.jq.append(ullv);
 
 		var ldr:GapiListLoader = new GapiListLoader(true, folderID)
 			.onUpdate((data:any[])=> {
+				ullv.data("data", data);
 				for (var i = 0; i < data.length; i++) {
 					var dataEle:any = data[i];
 					var li:JQuery = $("<li></li>")
@@ -87,39 +90,10 @@ class FileListView {
 					if (dataEle.mimeType.indexOf("image") >= 0)li.addClass("image");
 					ullv.append(li);
 				}
-				// this.sort(ullv);
 			})
 			.onComplete((allData:any[])=> {
 				console.log("onComplete", allData);
 			})
 			.start();
 	}
-
-	// ソート　フォルダ＆名前
-	// private sort(targetList:JQuery) {
-	// 	var $items:JQuery = targetList.find("li");
-	// 	$items.sort(function (a, b) {
-	// 		if (a.innerHTML < b.innerHTML) return -1;
-	// 		if (a.innerHTML > b.innerHTML) return 1;
-	// 		return 0;
-	// 	});
-	// 	var folders:any[] = [];
-	// 	var images:any[] = [];
-	// 	var files:any[] = [];
-	// 	$items.each((index, elem)=> {
-	// 		if ($(elem).hasClass("folder")) {
-	// 			folders.push(elem);
-	// 		} else if ($(elem).hasClass("image")) {
-	// 			images.push(elem);
-	// 		} else {
-	// 			files.push(elem);
-	// 		}
-	// 	});
-	//
-	// 	// targetList.empty();
-	// 	files = folders.concat(images).concat(files);
-	// 	for (var i = 0; i < files.length; i++) {
-	// 		targetList.append(files[i]);
-	// 	}
-	// }
 }

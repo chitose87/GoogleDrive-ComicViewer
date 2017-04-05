@@ -539,17 +539,13 @@ html, body {
       position: absolute;
       top: 0;
       left: 0;
-      width: 50%;
       height: 100%;
-      background-position: 100% 50%;
       background-size: contain; }
     #content #viewer .right {
       position: absolute;
       top: 0;
       right: 0;
-      width: 50%;
       height: 100%;
-      background-position: 0% 50%;
       background-size: contain; }
     #content #viewer .ui {
       position: absolute;
@@ -595,6 +591,17 @@ html, body {
           margin-left: -2.5rem; }
       #content #viewer .ui.show .nextBtn, #content #viewer .ui.show .prevBtn, #content #viewer .ui.show .menuBtn, #content #viewer .ui.show .seekBar {
         opacity: 0.5; }
+    #content #viewer[data-layout="single"] .left {
+      display: none; }
+    #content #viewer[data-layout="single"] .right {
+      width: 100%;
+      background-position: center center; }
+    #content #viewer[data-layout="double"] .left {
+      width: 50%;
+      background-position: 100% 50%; }
+    #content #viewer[data-layout="double"] .right {
+      width: 50%;
+      background-position: 0% 50%; }
 
 #content #result {
   transition: transform 0.3s cubic-bezier(0.785, 0.135, 0.15, 0.86); }

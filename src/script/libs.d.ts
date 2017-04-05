@@ -1,5 +1,6 @@
 /// <reference path="../../node_modules/@types/jquery/index.d.ts" />
 /// <reference path="../../node_modules/@types/gapi/index.d.ts" />
+/// <reference path="../../node_modules/vue/types/index.d.ts" />
 
 /// <reference path="./Main.ts" />
 /// <reference path="./AccountMgr.ts" />

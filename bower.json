@@ -17,6 +17,7 @@
   "dependencies": {
     "jQuery": "^3.1.1",
     "bourbon": "^4.3.2",
-    "sanitize-css": "^4.1.0"
+    "sanitize-css": "^4.1.0",
+    "vue": "^2.2.6"
   }
 }
