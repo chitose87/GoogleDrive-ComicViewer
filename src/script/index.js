@@ -56,88 +56,6 @@ $(function () {
     main = new Main();
 });
 /// <reference path="./libs.d.ts" />
-var AccountMgr = (function () {
-    function AccountMgr() {
-    }
-    AccountMgr.init = function (onLogin) {
-        AccountMgr.onLogin = onLogin;
-        gapi.load('auth', { 'callback': AccountMgr.onAuthApiLoad });
-    };
-    AccountMgr.onAuthApiLoad = function () {
-        gapi.auth.authorize({
-            'client_id': AccountMgr.CLIENT_ID,
-            'scope': AccountMgr.SCOPES.join(' '),
-            'immediate': false,
-            "authuser": -1
-        }, AccountMgr.handleAuthResult);
-    };
-    AccountMgr.handleAuthResult = function (e) {
-        console.log(e);
-        if (e && !e.error) {
-            AccountMgr.oauthToken = e.access_token;
-            gapi.load('client:auth2', AccountMgr.initClient);
-        }
-    };
-    AccountMgr.initClient = function (e) {
-        console.log("initClient", e);
-        gapi.client["init"]({
-            discoveryDocs: AccountMgr.DISCOVERY_DOCS
-        }).then(function (e) {
-            console.log(e);
-            AccountMgr.onLogin();
-            // listFiles();
-            // AccountMgr.getRoot();
-        });
-    };
-    AccountMgr.getRoot = function (e) {
-        console.log("getRoot", e);
-        gapi.client["drive"].files.get({
-            fileId: 'root'
-        }).then(function (response) {
-            console.log(response);
-            AccountMgr.appendPre('Files:');
-            var files = response.result.files;
-            if (files && files.length > 0) {
-                for (var i = 0; i < files.length; i++) {
-                    var file = files[i];
-                    AccountMgr.appendPre(file.name + ' (' + file.id + ')');
-                }
-            }
-            else {
-                AccountMgr.appendPre('No files found.');
-            }
-        });
-    };
-    AccountMgr.listFiles = function () {
-        console.log("listFiles");
-        gapi.client["drive"].files.list({
-            'pageSize': 10,
-            'fields': "nextPageToken, files(id, name)"
-        }).then(function (response) {
-            AccountMgr.appendPre('Files:');
-            var files = response.result.files;
-            if (files && files.length > 0) {
-                for (var i = 0; i < files.length; i++) {
-                    var file = files[i];
-                    AccountMgr.appendPre(file.name + ' (' + file.id + ')');
-                }
-            }
-            else {
-                AccountMgr.appendPre('No files found.');
-            }
-        });
-    };
-    AccountMgr.appendPre = function (message) {
-        var pre = document.getElementById('content');
-        var textContent = document.createTextNode(message + '\n');
-        pre.appendChild(textContent);
-    };
-    AccountMgr.CLIENT_ID = "902347479823-4rleemh315kaedsq8oc9vqegro999b32.apps.googleusercontent.com";
-    AccountMgr.SCOPES = ['https://www.googleapis.com/auth/drive'];
-    AccountMgr.DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"];
-    return AccountMgr;
-}());
-/// <reference path="./libs.d.ts" />
 var FileListView = (function () {
     function FileListView() {
         var _this = this;
@@ -382,5 +300,87 @@ var GapiListLoader = (function () {
         });
     };
     return GapiListLoader;
+}());
+/// <reference path="./libs.d.ts" />
+var AccountMgr = (function () {
+    function AccountMgr() {
+    }
+    AccountMgr.init = function (onLogin) {
+        AccountMgr.onLogin = onLogin;
+        gapi.load('auth', { 'callback': AccountMgr.onAuthApiLoad });
+    };
+    AccountMgr.onAuthApiLoad = function () {
+        gapi.auth.authorize({
+            'client_id': AccountMgr.CLIENT_ID,
+            'scope': AccountMgr.SCOPES.join(' '),
+            'immediate': false,
+            "authuser": -1
+        }, AccountMgr.handleAuthResult);
+    };
+    AccountMgr.handleAuthResult = function (e) {
+        console.log(e);
+        if (e && !e.error) {
+            AccountMgr.oauthToken = e.access_token;
+            gapi.load('client:auth2', AccountMgr.initClient);
+        }
+    };
+    AccountMgr.initClient = function (e) {
+        console.log("initClient", e);
+        gapi.client["init"]({
+            discoveryDocs: AccountMgr.DISCOVERY_DOCS
+        }).then(function (e) {
+            console.log(e);
+            AccountMgr.onLogin();
+            // listFiles();
+            // AccountMgr.getRoot();
+        });
+    };
+    AccountMgr.getRoot = function (e) {
+        console.log("getRoot", e);
+        gapi.client["drive"].files.get({
+            fileId: 'root'
+        }).then(function (response) {
+            console.log(response);
+            AccountMgr.appendPre('Files:');
+            var files = response.result.files;
+            if (files && files.length > 0) {
+                for (var i = 0; i < files.length; i++) {
+                    var file = files[i];
+                    AccountMgr.appendPre(file.name + ' (' + file.id + ')');
+                }
+            }
+            else {
+                AccountMgr.appendPre('No files found.');
+            }
+        });
+    };
+    AccountMgr.listFiles = function () {
+        console.log("listFiles");
+        gapi.client["drive"].files.list({
+            'pageSize': 10,
+            'fields': "nextPageToken, files(id, name)"
+        }).then(function (response) {
+            AccountMgr.appendPre('Files:');
+            var files = response.result.files;
+            if (files && files.length > 0) {
+                for (var i = 0; i < files.length; i++) {
+                    var file = files[i];
+                    AccountMgr.appendPre(file.name + ' (' + file.id + ')');
+                }
+            }
+            else {
+                AccountMgr.appendPre('No files found.');
+            }
+        });
+    };
+    AccountMgr.appendPre = function (message) {
+        var pre = document.getElementById('content');
+        var textContent = document.createTextNode(message + '\n');
+        pre.appendChild(textContent);
+    };
+    AccountMgr.CLIENT_ID = "902347479823-4rleemh315kaedsq8oc9vqegro999b32.apps.googleusercontent.com";
+    AccountMgr.SCOPES = ['https://www.googleapis.com/auth/drive'];
+    AccountMgr.DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"];
+    return AccountMgr;
 }());
 //# sourceMappingURL=index.js.map
